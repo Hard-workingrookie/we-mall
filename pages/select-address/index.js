@@ -33,42 +33,46 @@ Page({
   onLoad: function() {
   },
   onShow: function() {
-    AUTH.checkHasLogined().then(isLogined => {
-      if (isLogined) {
+    // AUTH.checkHasLogined().then(isLogined => {
+    //   if (isLogined) {
         this.initShippingAddress();
-      } else {
-        wx.showModal({
-          title: '提示',
-          content: '本次操作需要您的登录授权',
-          cancelText: '暂不登录',
-          confirmText: '前往登录',
-          success(res) {
-            if (res.confirm) {
-              wx.switchTab({
-                url: "/pages/user/index"
-              })
-            } else {
-              wx.navigateBack()
-            }
-          }
-        })
-      }
-    })
+    //   } else {
+    //     wx.showModal({
+    //       title: '提示',
+    //       content: '本次操作需要您的登录授权',
+    //       cancelText: '暂不登录',
+    //       confirmText: '前往登录',
+    //       success(res) {
+    //         if (res.confirm) {
+    //           wx.switchTab({
+    //             url: "/pages/user/index"
+    //           })
+    //         } else {
+    //           wx.navigateBack()
+    //         }
+    //       }
+    //     })
+    //   }
+    // })
   },
   initShippingAddress: function() {
     var that = this;
-    WXAPI.queryAddress(wx.getStorageSync('token')).then(function(res) {
-      console.log(res, '<-resDa->');
-      if (res.code == 0) {
-        that.setData({
-          addressList: res.data
-        });
-      } else if (res.code == 700) {
-        that.setData({
-          addressList: null
-        });
-      }
-    })
+    // WXAPI.queryAddress(wx.getStorageSync('token')).then(function(res) {
+    //   console.log(res, '<-resDa->');
+    //   if (res.code == 0) {
+    //     that.setData({
+    //       addressList: res.data
+    //     });
+    //   } else if (res.code == 700) {
+    //     that.setData({
+    //       addressList: null
+    //     });
+    //   }
+    // })
+    that.setData({
+      addressList: wx.getStorageSync('addressData')
+    });
+    console.log('addressList: ', this.data.addressList);
   }
 
 })

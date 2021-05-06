@@ -119,19 +119,19 @@ Page({
     }
   },
   onLoad: function (options) {
-    if (options && options.type) {
-      if (options.type == 99) {
-        this.setData({
-          hasRefund: true,
-          currentType: options.type
-        });
-      } else {
-        this.setData({
-          hasRefund: false,
-          currentType: options.type
-        });
-      }
-    }
+    // if (options && options.type) {
+    //   if (options.type == 99) {
+    //     this.setData({
+    //       hasRefund: true,
+    //       currentType: options.type
+    //     });
+    //   } else {
+    //     this.setData({
+    //       hasRefund: false,
+    //       currentType: options.type
+    //     });
+    //   }
+    // }
   },
   onReady: function () {
     // 生命周期函数--监听页面初次渲染完成
@@ -175,53 +175,62 @@ Page({
     })
   },
   onShow: function () {
-    AUTH.checkHasLogined().then(isLogined => {
-      if (isLogined) {
-        this.doneShow();
-      } else {
-        wx.showModal({
-          title: '提示',
-          content: '本次操作需要您的登录授权',
-          cancelText: '暂不登录',
-          confirmText: '前往登录',
-          success(res) {
-            if (res.confirm) {
-              wx.switchTab({
-                url: "/pages/my/index"
-              })
-            } else {
-              wx.navigateBack()
-            }
-          }
-        })
-      }
-    })
+    this.doneShow();
+    // AUTH.checkHasLogined().then(isLogined => {
+    //   if (isLogined) {
+    //
+    //   } else {
+    //     wx.showModal({
+    //       title: '提示',
+    //       content: '本次操作需要您的登录授权',
+    //       cancelText: '暂不登录',
+    //       confirmText: '前往登录',
+    //       success(res) {
+    //         if (res.confirm) {
+    //           wx.switchTab({
+    //             url: "/pages/user/index"
+    //           })
+    //         } else {
+    //           wx.navigateBack()
+    //         }
+    //       }
+    //     })
+    //   }
+    // })
   },
   doneShow: function () {
     // 获取订单列表
     var that = this;
-    var postData = {
-      token: wx.getStorageSync('token')
-    };
-    postData.hasRefund = that.data.hasRefund;
-    if (!postData.hasRefund) {
-      postData.status = that.data.currentType;
-    }
+    // var postData = {
+    //   token: wx.getStorageSync('token')
+    // };
+    // postData.hasRefund = that.data.hasRefund;
+    // if (!postData.hasRefund) {
+    //   postData.status = that.data.currentType;
+    // }
     this.getOrderStatistics();
-    WXAPI.orderList(postData).then(function (res) {
-      if (res.code == 0) {
-        that.setData({
-          orderList: res.data.orderList,
-          logisticsMap: res.data.logisticsMap,
-          goodsMap: res.data.goodsMap
-        });
-      } else {
-        that.setData({
-          orderList: null,
-          logisticsMap: {},
-          goodsMap: {}
-        });
-      }
-    })
+    that.setData({
+      orderList: wx.getStorageSync('orderData'),
+      logisticsMap: wx.getStorageSync('orderData'),
+      goodsMap: wx.getStorageSync('orderData')
+    });
+
+    console.log('orderList: ', this.data.orderList);
+
+    // WXAPI.orderList(postData).then(function (res) {
+    //   if (res.code == 0) {
+    //     that.setData({
+    //       orderList: res.data.orderList,
+    //       logisticsMap: res.data.logisticsMap,
+    //       goodsMap: res.data.goodsMap
+    //     });
+    //   } else {
+    //     that.setData({
+    //       orderList: null,
+    //       logisticsMap: {},
+    //       goodsMap: {}
+    //     });
+    //   }
+    // })
   },
 })

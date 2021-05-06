@@ -1,5 +1,5 @@
-import regeneratorRuntime from '../lib/runtime/runtime';
-const WXAPI = require('apifm-wxapi');
+import regeneratorRuntime from '../lib/runtime/runtime'
+const WXAPI = require('apifm-wxapi')
 
 async function checkSession() {
   return new Promise((resolve, reject) => {
@@ -14,7 +14,6 @@ async function checkSession() {
   })
 }
 
-
 async function login(page) {
   const _this = this
   wx.login({
@@ -23,7 +22,7 @@ async function login(page) {
         if (res.code == 10000) {
           // 去注册
           //_this.register(page)
-          return;
+          return
         }
         if (res.code != 0) {
           // 登录错误
@@ -32,7 +31,7 @@ async function login(page) {
             content: res.msg,
             showCancel: false
           })
-          return;
+          return
         }
         wx.setStorageSync('token', res.data.token)
         wx.setStorageSync('uid', res.data.uid)
@@ -67,19 +66,19 @@ async function checkHasLogined() {
 }
 
 async function register(page) {
-  let _this = this;
+  let _this = this
   wx.login({
     success: function (res) {
-      let code = res.code; // 微信登录接口返回的 code 参数，下面注册接口需要用到
-      console.log(code, '<-code->');
+      let code = res.code // 微信登录接口返回的 code 参数，下面注册接口需要用到
+      console.log(code, '<-code->')
       wx.getUserInfo({
         success: function (res) {
-          let iv = res.iv;
-          let encryptedData = res.encryptedData;
+          let iv = res.iv
+          let encryptedData = res.encryptedData
           let referrer = '' // 推荐人
-          let referrer_storge = wx.getStorageSync('referrer');
+          let referrer_storge = wx.getStorageSync('referrer')
           if (referrer_storge) {
-            referrer = referrer_storge;
+            referrer = referrer_storge
           }
           // 下面开始调用注册接口
           WXAPI.register_complex({
@@ -88,7 +87,7 @@ async function register(page) {
             iv: iv,
             referrer: referrer
           }).then(function (res) {
-            _this.login(page);
+            _this.login(page)
           })
         }
       })
@@ -98,13 +97,12 @@ async function register(page) {
 
 function onShow(e) {
   // 自动登录
-  checkHasLogined().then(isLogined => {
+  checkHasLogined().then((isLogined) => {
     if (!isLogined) {
       login()
     }
   })
 }
-
 
 async function checkAndAuthorize(scope) {
   return new Promise((resolve, reject) => {
@@ -131,12 +129,12 @@ async function checkAndAuthorize(scope) {
                 confirmText: '立即授权',
                 confirmColor: '#e64340',
                 success(res) {
-                  wx.openSetting();
+                  wx.openSetting()
                 },
                 fail(e) {
                   console.error(e)
                   reject(e)
-                },
+                }
               })
             }
           })
@@ -175,5 +173,5 @@ module.exports = {
   checkHasLogined: checkHasLogined,
   login: login,
   register: register,
-  checkAndAuthorize: checkAndAuthorize,
+  checkAndAuthorize: checkAndAuthorize
 }

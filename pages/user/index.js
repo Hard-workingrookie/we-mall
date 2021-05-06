@@ -1,8 +1,3 @@
-/*
- * @Author: kotoba
- * @Date: 2020-03-22 16:46:54
- * @LastEditTime: 2021-04-09 19:46:03
- */
 // pages/user/index.js
 const AUTH = require('../../utils/auth')
 Page({

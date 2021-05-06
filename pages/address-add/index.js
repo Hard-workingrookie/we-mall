@@ -45,13 +45,13 @@ Page({
       return
     }
     const postData = {
-      token: wx.getStorageSync('token'),
       linkMan: linkMan,
       address: address,
       mobile: mobile,
-      code: code,
-      isDefault: 'true',
     }
+    var address = wx.getStorageSync('addressData')
+    address.push(postData)
+    wx.setStorageSync('addressData', address)
     if (this.data.pObject) {
       postData.provinceId = this.data.pObject.id
     }
@@ -70,24 +70,29 @@ Page({
       extJsonStr['街道/社区'] = _address
       postData.extJsonStr = JSON.stringify(extJsonStr)
     }
-    let apiResult
-    if (that.data.id) {
-      postData.id = this.data.id
-      apiResult = await WXAPI.updateAddress(postData)
-    } else {
-      apiResult = await WXAPI.addAddress(postData)
-    }
-    if (apiResult.code != 0) {
-      // 登录错误 
-      wx.hideLoading();
-      wx.showToast({
-        title: apiResult.msg,
-        icon: 'none'
-      })
-      return;
-    } else {
-      wx.navigateBack()
-    }
+    // let apiResult
+    // if (that.data.id) {
+    //   postData.id = this.data.id
+    //   apiResult = await WXAPI.updateAddress(postData)
+    // } else {
+    //   apiResult = await WXAPI.addAddress(postData)
+    // }
+    wx.hideLoading();
+    wx.showToast({
+      title: '支付成功',
+      icon: 'none'
+    })
+    // if (apiResult.code != 0) {
+    //   // 登录错误 
+    //  wx.hideLoading();
+    //   wx.showToast({
+    //     title: apiResult.msg,
+    //     icon: 'none'
+    //   })
+    //   return; 
+    // } else {
+    //   wx.navigateBack()
+    // }
   },
   onLoad: function (e) {
     const _this = this

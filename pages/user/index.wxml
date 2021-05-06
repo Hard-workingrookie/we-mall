@@ -66,7 +66,7 @@
     <view class="app_info_wrap">
       <view class="app_info_item app_info_contact">
         <text>联系客服</text>
-        <text>13944362281</text>
+        <text>17695974562</text>
       </view>
       <navigator url="/pages/feedback/index" class="app_info_item">意见反馈</navigator>
       <view class="app_info_item">关于我们</view>

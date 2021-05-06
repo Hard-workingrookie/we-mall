@@ -1,27 +1,25 @@
 //app.js
-const WXAPI = require('apifm-wxapi');
+const WXAPI = require('apifm-wxapi')
 
-// WXAPI.init('kotoba');
+// WXAPI.init('wmshero');
 
 App({
   //onLaunch,onShow: options(path,query,scene,shareTicket,referrerInfo(appId,extraData))
   onLaunch: function (options) {
-    WXAPI.init(this.globalData.subDomain);
+    WXAPI.init(this.globalData.subDomain)
   },
   handleDestruction(res) {
-    const {
-      data = []
-    } = res; // 设默认值为 [] 以免获取数据失败时发生错误
-    return data;
+    const {data = []} = res // 设默认值为 [] 以免获取数据失败时发生错误
+    return data
   },
   login(e) {
     if (!e.detail.userInfo) {
       // 你点了取消授权
-      return;
+      return
     }
     wx.login({
       success: function (res) {
-        const code = res.code; // 微信登录接口返回的 code 参数，下面登录接口需要用到
+        const code = res.code // 微信登录接口返回的 code 参数，下面登录接口需要用到
         WXAPI.login_wx(code).then(function (res) {
           // 登录接口返回结果
           console.log(res)
@@ -38,7 +36,7 @@ App({
         // 通过分享链接进来
         wx.getShareInfo({
           shareTicket: e.shareTicket,
-          success: res => {
+          success: (res) => {
             // console.error(res)
             // console.error({
             //   referrer: e.query.inviter_id,
@@ -60,8 +58,14 @@ App({
     //     AUTH.login()
     //   }
     // })
+    if (!wx.getStorageSync('orderData')) {
+      wx.setStorageSync('orderData', [])
+    }
+    if (!wx.getStorageSync('addressData')) {
+      wx.setStorageSync('addressData', [])
+    }
   },
   globalData: {
-    subDomain: "kotoba"
+    subDomain: 'wmshero'
   }
-});
+})

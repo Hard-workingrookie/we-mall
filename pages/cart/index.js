@@ -120,22 +120,22 @@
      }
    },
    async handlePay() {
-     const token = wx.getStorageSync('token');
-     AUTH.checkHasLogined().then(isLogined => {
-       if (!isLogined) {
-         this.setData({
-           wxlogin: isLogined
-         })
-       }
-     })
-     //  console.log(status, '<-status->');
+    //  const token = wx.getStorageSync('token');
+    //  AUTH.checkHasLogined().then(isLogined => {
+    //    if (!isLogined) {
+    //      this.setData({
+    //        wxlogin: isLogined
+    //      })
+    //    }
+    //  })
+    //  //  console.log(status, '<-status->');
      const {
        totalNum
      } = this.data;
-     if (!token) {
-       return;
-     }
-     console.log(totalNum, '<-totalNum->');
+    //  if (!token) {
+    //    return;
+    //  }
+    //  console.log(totalNum, '<-totalNum->');
      if (totalNum === 0) {
        await showToast({
          title: '您还没有选购商品'

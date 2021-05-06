@@ -1,7 +1,7 @@
 {
   "name": "wx-mall",
   "version": "1.0.0",
-  "description": "视频学习：[零基础玩转微信小程序](https://www.bilibili.com/video/av73342655?p=131)",
+  "description": "",
   "main": "app.js",
   "directories": {
     "lib": "lib"
@@ -9,16 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kotoba209/-.git"
-  },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Kotoba209/-/issues"
-  },
-  "homepage": "https://github.com/Kotoba209/-#readme",
   "dependencies": {
     "apifm-wxapi": "^3.0.0"
   }

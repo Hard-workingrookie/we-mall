@@ -31,7 +31,7 @@
       <text>购物车</text>
     </view>
   </navigator>
-  <navigator url="/pages/my/index" open-type="switchTab">
+  <navigator url="/pages/user/index" open-type="switchTab">
     <view class="item">
       <image src="/images/nav/my-off.png"></image>
       <text>我的</text>

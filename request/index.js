@@ -51,7 +51,7 @@ export const http = (params) => {
     title: "加载中",
     mask: true
   });
-  const baseUrl = "https://api.it120.cc/kotoba";
+  const baseUrl = "https://api.it120.cc/wmshero";
   return new Promise((resolve, reject) => {
     wx.request({
       ...params,
