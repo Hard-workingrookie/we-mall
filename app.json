@@ -12,7 +12,8 @@
     "pages/feedback/index",
     "pages/pay/index",
     "pages/address-add/index",
-    "pages/select-address/index"
+    "pages/select-address/index",
+    "pages/evaluate/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -24,7 +25,8 @@
     "color": "#999",
     "selectedColor": "#1CD8D2",
     "backgroundColor": "#fafafa",
-    "list": [{
+    "list": [
+      {
         "pagePath": "pages/index/index",
         "text": "首页",
         "iconPath": "/icons/home.png",

@@ -80,7 +80,8 @@ Page({
         number: v.num || 1,
         propertyChildIds: '',
         logisticsType: 0,
-        detail:v
+        detail:v,
+        status:2
       })
     )
 

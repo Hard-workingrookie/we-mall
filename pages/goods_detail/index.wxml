@@ -15,9 +15,9 @@
     <view class="collect_text">收藏</view>
   </view>
 </view>
-<view class="goods_info goods_info_evaluate">
+<view class="goods_info goods_info_evaluate"  wx:for-items="{{evaluateList}}" wx:key="{{index}}" >
   <view class="goods_info_title">评价</view>
-  <view class="evaluate">商品很好！商品很好！商品很好！商品很好！商品很好！商品很好！商品很好！</view>
+  <view class="evaluate">{{item}}</view>
   <view class="evaluate">物美价廉</view>
   <view class="evaluate">女儿很喜欢！</view>
 </view>

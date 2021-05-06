@@ -1,0 +1,18 @@
+  <view class="fb_main">
+    <view class="fb_title">评价宝贝</view>
+    <view class="fb_content">
+      <textarea value="{{textVal}}" bindinput="handleTextInput" placeholder="从多个角度评价宝贝，可以帮助更多想买的人"></textarea>
+      <view class="fb_tool">
+        <button bindtap="handleChooseImg">+</button>
+        <view class="up_img_item" wx:for="{{chooseImgs}}" wx:key="*this" bindtap="handleRemoveImg" data-index="{{index}}">
+          <UpImg src="{{item}}"></UpImg>
+        </view>
+      </view>
+    </view>
+    <view class="form_btn_wrap">
+      <button bindtap="handleFormSubmit" type="warn">
+        <icon type="success_no_circle" size="20" color="white"></icon>
+        发布
+      </button>
+    </view>
+  </view>
