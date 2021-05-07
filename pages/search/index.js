@@ -50,10 +50,6 @@ Page({
           }
         });
       }
-      console.log(
-        "🚀 ~ file: index.js ~ line 62 ~ this.TimeId=setTimeout ~ goodsArr",
-        goodsArr
-      );
 
       this.setData({
         goods: goodsArr,
