@@ -7,12 +7,22 @@
   </view>
   <view class="order-list" hidden="{{orderList ? false : true}}">
     <view class="a-order" wx:for-items="{{orderList}}" wx:key="{{index}}">
+<<<<<<< HEAD
       <view wx:if="{{item.status===currentType}}">
         <navigator url="/pages/order-details/index?id={{item.goodsId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">{{item.orderNumber}}</view>
           <view class="weui-cell__ft weui-cell__ft_in-access">{{item.statusStr}}</view>
         </navigator>
         <view class="goods_other_info">
+=======
+      <text class="p">{{item.detail.basicInfo.name}}</text>
+      <navigator url="/pages/goods_detail/index?id={{item.goodsId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <view class="weui-cell__bd">{{item.orderNumber}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">{{item.statusStr}}</view>
+      </navigator>
+      <!-- <scroll-view class="goods-img-container" scroll-x="true">
+        <view class="img-box" wx:for-items="{{goodsMap[index]}}" wx:key="{{index}}">
+>>>>>>> 4608eb18bdf73de7301c8c4ac08b0af0ff2ef037
           <image src="{{item.detail.basicInfo.pic}}" class="goods-img"></image>
           <view class="goods_text_info_message">
             <text class="goods-title">{{item.detail.basicInfo.name}}</text>

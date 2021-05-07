@@ -1,20 +1,16 @@
 // pages/search/index.js
-import {
-  request,
-  http
-} from "../../request/index.js";
-import regeneratorRuntime from '../../lib/runtime/runtime';
-const WXAPI = require('apifm-wxapi');
+import { request, http } from "../../request/index.js";
+import regeneratorRuntime from "../../lib/runtime/runtime";
+const WXAPI = require("apifm-wxapi");
 const app = getApp(); // 获取全局
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
     goods: [],
     isFocus: false,
-    inpValue: '',
+    inpValue: "",
   },
   TimeId: -1,
   goodsList: [],
@@ -28,38 +24,37 @@ Page({
 
   handleInput(e) {
     // console.log(this.data.goodsList, '<-this.data.goodsList->');
-    const {
-      value
-    } = e.detail;
+    const { value } = e.detail;
     // console.log(value, '<-value->');
     if (!value.trim()) {
       this.setData({
         goods: [],
         isFocus: false,
-      })
+      });
       return;
     }
     this.setData({
       isFocus: true,
-    })
+    });
     clearTimeout(this.TimeId);
     this.TimeId = setTimeout(() => {
       // this.qsearch(value);
       let goodsArr = [];
       if (this.goodsList.length > 0) {
-        this.goodsList.map(v => {
+        this.goodsList.map((v) => {
           if (v.name) {
             let arr = v.name.indexOf(value) >= 0 ? v : false;
             if (arr) {
               goodsArr.push(arr);
             }
           }
-        })
+        });
       }
+
       this.setData({
         goods: goodsArr,
       });
-    }, 1000);
+    }, 500);
   },
 
   async getGoodsList() {
@@ -72,7 +67,8 @@ Page({
     // if (res.code == 0) {
     //   this.goodsList = data;
     // }
-    await WXAPI.goods().then(res => app.handleDestruction(res))
+    await WXAPI.goods()
+      .then((res) => app.handleDestruction(res))
       .then((data) => {
         this.goodsList = data;
       });
@@ -87,7 +83,7 @@ Page({
 
   handleCancel() {
     this.setData({
-      inpValue: '',
+      inpValue: "",
       isFocus: false,
       goods: [],
     });
@@ -96,4 +92,4 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-})
+});
