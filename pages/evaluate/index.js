@@ -79,8 +79,6 @@ Page({
     })
 
     let products = wx.getStorageSync('products')
-    console.log('item: ',  this.data.id);
-
     products.map((item) => {
       if (item.base_info_id == this.data.id) {
         if (!item.evaluate) {
@@ -91,8 +89,16 @@ Page({
         }
       }
     })
+    console.log('=this.data.id: ', this.data.id);
+
+    const orderList = wx.getStorageSync('orderData')
+    orderList.map((item) => {
+      if (item.goodsId ==this.data.id) {
+        item.status = 3
+      }
+    })
+    wx.setStorageSync('orderData', orderList)
     wx.setStorageSync('products',products)
-    console.log('products: ', products);
     wx.navigateBack({
       data: 1
     })

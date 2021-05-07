@@ -1,28 +1,18 @@
 <view class="container">
-  <view wx:if='{{!hasRefund}}' class="status-box">
+  <view class="status-box">
     <view bindtap="statusTap" class="status-label {{index == currentType ? 'active' : ''}}" wx:for-items="{{statusType}}" wx:key="{{index}}" data-index="{{index}}">
       {{item}}
       <view class="{{tabClass[index]}}"></view>
     </view>
   </view>
-  <view class="order-list" hidden="{{orderList ? false : true}}">
-    <view class="a-order" wx:for-items="{{orderList}}" wx:key="{{index}}">
-<<<<<<< HEAD
-      <view wx:if="{{item.status===currentType}}">
-        <navigator url="/pages/order-details/index?id={{item.goodsId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+  <view class="order-list">
+    <view class="a-order" wx:for-items="{{currentOrderList}}" wx:key="{{index}}">
+      <view wx:if="{{item}}">
+        <navigator url="/pages/goods_detail/index?id={{item.goodsId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">{{item.orderNumber}}</view>
           <view class="weui-cell__ft weui-cell__ft_in-access">{{item.statusStr}}</view>
         </navigator>
         <view class="goods_other_info">
-=======
-      <text class="p">{{item.detail.basicInfo.name}}</text>
-      <navigator url="/pages/goods_detail/index?id={{item.goodsId}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">{{item.orderNumber}}</view>
-        <view class="weui-cell__ft weui-cell__ft_in-access">{{item.statusStr}}</view>
-      </navigator>
-      <!-- <scroll-view class="goods-img-container" scroll-x="true">
-        <view class="img-box" wx:for-items="{{goodsMap[index]}}" wx:key="{{index}}">
->>>>>>> 4608eb18bdf73de7301c8c4ac08b0af0ff2ef037
           <image src="{{item.detail.basicInfo.pic}}" class="goods-img"></image>
           <view class="goods_text_info_message">
             <text class="goods-title">{{item.detail.basicInfo.name}}</text>
@@ -40,24 +30,24 @@
           </view>
         </view>
         <view class="price-box">
-          <!-- <view class="btn" hidden="{{(item.status==0 || item.status==-1) ? true : false}}" bindtap="cancelOrderTap" data-id="{{item.goodsId}}">
-            取消订单
-          </view> -->
-          <view class="btn active" wx:if="{{item.status==2}}" bindtap="receivedGoods" data-id="{{item.goodsId}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">
+          <view class="btn" wx:if="{{item.status==0}}" bindtap="goPay" data-id="{{item.goodsId}}">
+            去付款
+          </view>
+          <view class="btn active" wx:if="{{item.status==1}}" bindtap="receivedGoods" data-id="{{item.goodsId}}" data-money="{{item.amountReal}}" data-score="{{item.score}}">
             确认收货
           </view>
           <!-- <view class="btn active" hidden="{{(item.status==0 || item.status==-1) ? true : false}}" bindtap="refundApply" data-id="{{item.goodsId}}" data-amount='{{item.amountReal}}'>
             退换货
           </view> -->
-          <view class="btn active" wx:if="{{item.status==3}}" bindtap="evaluate" data-id="{{item.goodsId}}" data-amount='{{item.amountReal}}'>
+          <view class="btn active" wx:if="{{item.status==2}}" bindtap="evaluate" data-id="{{item.goodsId}}" data-amount='{{item.amountReal}}'>
             评价
           </view>
         </view>
       </view>
-      <view class="no-order" wx:else>
-        <image src="/images/no-order.png" class="no-order-img"></image>
-        <view class="text">暂无订单</view>
-      </view>
+    </view>
+    <view class="no-order" wx:if="{{!currentOrderList.length}}">
+      <image src="/images/no-order.png" class="no-order-img"></image>
+      <view class="text">暂无订单</view>
     </view>
   </view>
   <view class="safeAreaOldMarginBttom safeAreaNewMarginBttom"></view>

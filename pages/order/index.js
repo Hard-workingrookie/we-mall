@@ -1,14 +1,13 @@
 const wxpay = require('../../utils/pay.js')
-const app = getApp()
 const WXAPI = require('apifm-wxapi')
-const AUTH = require('../../utils/auth')
 
 Page({
   data: {
-    statusType: ['待付款', '待发货', '待收货', '待评价', '已完成'],
+    statusType: ['待付款', '待收货', '待评价', '已完成'],
     hasRefund: false,
     currentType: 0,
-    tabClass: ['', '', '', '', '']
+    tabClass: ['', '', '', '', ''],
+    currentOrderList: []
   },
   statusTap: function (e) {
     const curType = e.currentTarget.dataset.index
@@ -16,7 +15,16 @@ Page({
     this.setData({
       currentType: curType
     })
-    this.onShow()
+    let list = []
+    const data = wx.getStorageSync('orderData')
+    data.map((item) => {
+      if (item.status === curType) {
+        list.push(item)
+      }
+    })
+    this.setData({
+      currentOrderList: list
+    })
   },
   cancelOrderTap: function (e) {
     const that = this
@@ -37,14 +45,6 @@ Page({
       }
     })
   },
-  // refundApply (e) {
-  //   // 申请售后
-  //   const orderId = e.currentTarget.dataset.id;
-  //   const amount = e.currentTarget.dataset.amount;
-  //   wx.navigateTo({
-  //     url: "/pages/order/refundApply?id=" + orderId + "&amount=" + amount
-  //   })
-  // },
   toPayTap: function (e) {
     // 防止连续点击--开始
     if (this.data.payButtonClicked) {
@@ -90,7 +90,6 @@ Page({
           confirmText: '确认支付',
           cancelText: '取消支付',
           success: function (res) {
-            console.log(res)
             if (res.confirm) {
               that._toPayTap(orderId, money)
             } else {
@@ -112,11 +111,9 @@ Page({
     if (money <= 0) {
       // 直接使用余额支付
       WXAPI.orderPay(wx.getStorageSync('token'), orderId).then(function (res) {
-        console.log(res, '<-res9999->')
         _this.onShow()
       })
     } else {
-      console.log(456, '<-456->')
       wxpay.wxpay('order', money, orderId, '/pages/order/index')
     }
   },
@@ -124,14 +121,20 @@ Page({
     if (options && options.type) {
       if (options.type == 99) {
         this.setData({
-          hasRefund: true,
           currentType: options.type
-        });
+        })
       } else {
+        let list = []
+        const data = wx.getStorageSync('orderData')
+        data.map((item) => {
+          if (item.status == options.type) {
+            list.push(item)
+          }
+        })
         this.setData({
-          hasRefund: false,
+          currentOrderList: list,
           currentType: options.type
-        });
+        })
       }
     }
     this.onShow()
@@ -176,80 +179,58 @@ Page({
       }
     })
   },
-  onShow: function () {
+  onShow: function (type) {
     this.doneShow()
-    // AUTH.checkHasLogined().then(isLogined => {
-    //   if (isLogined) {
-    //
-    //   } else {
-    //     wx.showModal({
-    //       title: '提示',
-    //       content: '本次操作需要您的登录授权',
-    //       cancelText: '暂不登录',
-    //       confirmText: '前往登录',
-    //       success(res) {
-    //         if (res.confirm) {
-    //           wx.switchTab({
-    //             url: "/pages/user/index"
-    //           })
-    //         } else {
-    //           wx.navigateBack()
-    //         }
-    //       }
-    //     })
-    //   }
-    // })
   },
   doneShow: function () {
-    // 获取订单列表
     var that = this
-    // var postData = {
-    //   token: wx.getStorageSync('token')
-    // };
-    // postData.hasRefund = that.data.hasRefund;
-    // if (!postData.hasRefund) {
-    //   postData.status = that.data.currentType;
-    // }
-    this.getOrderStatistics()
     that.setData({
       orderList: wx.getStorageSync('orderData'),
       logisticsMap: wx.getStorageSync('orderData'),
       goodsMap: wx.getStorageSync('orderData')
     })
-
-    // WXAPI.orderList(postData).then(function (res) {
-    //   if (res.code == 0) {
-    //     that.setData({
-    //       orderList: res.data.orderList,
-    //       logisticsMap: res.data.logisticsMap,
-    //       goodsMap: res.data.goodsMap
-    //     });
-    //   } else {
-    //     that.setData({
-    //       orderList: null,
-    //       logisticsMap: {},
-    //       goodsMap: {}
-    //     });
-    //   }
-    // })
   },
   OrderTap: function (e) {
     wx.navigateTo({
       url: '/pages/admin/home/index/index'
     })
   },
-  receivedGoods: function (e) {
+  checkCurrentList() {
+    let list = []
     const orderList = wx.getStorageSync('orderData')
-    orderList.map(item=>{
-      if(item.goodsId===e.currentTarget.dataset.id){
-          item.status=3
+    orderList.map((item) => {
+      if (item.status === this.data.currentType) {
+        list.push(item)
       }
     })
-    wx.setStorageSync('orderData', orderList);
+    this.setData({
+      currentOrderList: list
+    })
   },
-  evaluate:function(e){
+  goPay: function (e) {
+    const orderList = wx.getStorageSync('orderData')
+    orderList.map((item) => {
+      if (item.goodsId === e.currentTarget.dataset.id) {
+        item.status = 1
+      }
+    })
+    wx.setStorageSync('orderData', orderList)
+    this.checkCurrentList()
+  },
+  receivedGoods: function (e) {
+    const orderList = wx.getStorageSync('orderData')
+    orderList.map((item) => {
+      if (item.goodsId === e.currentTarget.dataset.id) {
+        item.status = 2
+      }
+    })
+    wx.setStorageSync('orderData', orderList)
+    this.checkCurrentList()
+
+  },
+  evaluate: function (e) {
     wx.navigateTo({
-      url:  `/pages/evaluate/index?id=${e.currentTarget.dataset.id}`
+      url: `/pages/evaluate/index?id=${e.currentTarget.dataset.id}`
     })
   }
 })

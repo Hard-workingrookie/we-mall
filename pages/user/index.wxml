@@ -42,19 +42,19 @@
           <view class="iconfont icon-daifukuan"></view>
           <view class="order_name">待付款</view>
         </navigator>
-        <navigator url="/pages/order/index?type=1">
+        <!-- <navigator url="/pages/order/index?type=1">
           <view class="iconfont icon-daifahuo"></view>
           <view class="order_name">待发货</view>
-        </navigator>
-        <navigator url="/pages/order/index?type=2">
+        </navigator> -->
+        <navigator url="/pages/order/index?type=1">
           <view class="iconfont icon-ziyuan"></view>
           <view class="order_name">待收货</view>
         </navigator>
-        <navigator url="/pages/order/index?type=3">
+        <navigator url="/pages/order/index?type=2">
           <view class="iconfont icon-daipingjia"></view>
           <view class="order_name">待评价</view>
         </navigator>
-        <navigator url="/pages/order/index?type=4">
+        <navigator url="/pages/order/index?type=3">
           <view class="iconfont icon-yiwancheng"></view>
           <view class="order_name">已完成</view>
         </navigator>
